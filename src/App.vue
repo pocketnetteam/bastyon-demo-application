@@ -1,46 +1,51 @@
 <template>
 	<div class="appwrapper">
-		<div class="caption">TEST APP</div>
 
-		<div class="content">
-			<div class="action">
-				<button @click="getAccount">Get user Address</button>
+		<img src="image.jpg" class="headerimage"/>
+
+		<div class="wrp">
+
+			<div class="caption">TEST APP</div>
+			<div class="content">
+				<div class="action">
+					<button @click="getAccount">Get user Address</button>
+				</div>
+
+				<div class="action" v-if="address">
+					<button @click="getUserInfo">Get user Profile</button>
+				</div>
+
+				<div class="action">
+					<button @click="getNodeInfo">Get node info</button>
+				</div>
+
+				<div class="action">
+					<button @click="makePayment">Make Payment</button>
+				</div>
+
+				<div class="action">
+					<button @click="requestPermissions">Request permissions [messaging]</button>
+				</div>
+
+				<div class="action">
+					<button @click="alertMessage">Alert Message</button>
+				</div>
+
+				<div class="action">
+					<button @click="openSettings">Open application settings page</button>
+				</div>
+
+				<div class="action">
+					<button @click="imageFromMobileCamera">Image From Mobile Camera</button>
+				</div>
 			</div>
 
-			<div class="action" v-if="address">
-				<button @click="getUserInfo">Get user Profile</button>
-			</div>
+			<div class="subcaption">Additional (test)</div>
 
-			<div class="action">
-				<button @click="getNodeInfo">Get node info</button>
-			</div>
-
-			<div class="action">
-				<button @click="makePayment">Make Payment</button>
-			</div>
-
-			<div class="action">
-				<button @click="requestPermissions">Request permissions [messaging]</button>
-			</div>
-
-			<div class="action">
-				<button @click="alertMessage">Alert Message</button>
-			</div>
-
-			<div class="action">
-				<button @click="openSettings">Open application settings page</button>
-			</div>
-
-			<div class="action">
-				<button @click="imageFromMobileCamera">Image From Mobile Camera</button>
-			</div>
-		</div>
-
-		<div class="subcaption">Additional (test)</div>
-
-		<div class="content">
-			<div class="action">
-				<input type="file" />
+			<div class="content">
+				<div class="action">
+					<input type="file" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -320,15 +325,19 @@ export default {
 	margin-top: 2em;
 }
 #app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	color: #2c3e50;
+	
+}
+.wrp{
+	padding: 0.5em;
+	padding-bottom: 500px;
 }
 .action{
 	display: flex;
 	align-items: center;
 	margin-bottom: 1em;
+}
+.headerimage{
+	width: 100%;
 }
 .lastresult{
 	position: fixed;
