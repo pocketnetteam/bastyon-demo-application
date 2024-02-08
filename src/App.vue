@@ -16,6 +16,15 @@
 				</div>
 
 				<div class="action">
+					<button @click="createChatRoom">Create chat room</button>
+				</div>
+
+
+				<div class="action">
+					<button @click="sendMessage" :disabled="lastChatRoom ? false : true">Send message in chat (last created room)</button>
+				</div>
+
+				<div class="action">
 					<button @click="getNodeInfo">Get node info</button>
 				</div>
 
@@ -38,6 +47,10 @@
 				<div class="action">
 					<button @click="imageFromMobileCamera">Image From Mobile Camera</button>
 				</div>
+
+				<div class="action">
+					<button @click="gotoRandomRoute">Application Internal Link</button>
+				</div>
 			</div>
 
 			<div class="subcaption">Additional (test)</div>
@@ -50,7 +63,19 @@
 		</div>
 	</div>
 
+	<div class="routeWrapper">
+		<div class="caption">
+			<span>Current route</span>
+		</div>
+
+		<div class="route">
+			{{route}}
+		</div>
+	</div>
+
 	<div class="emitted" v-if="emitted.length">
+
+		
 
 		<div class="caption">
 			<span>Events</span>
@@ -89,6 +114,23 @@
 
 <script>
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}
 
 export default {
 	name: 'App',
@@ -103,7 +145,15 @@ export default {
 			address : '',
 			emitted : [],
 			localstorage : '',
-			locale : ''	
+			locale : '',
+			lastChatRoom : '!PAWsIogJXfOQuBxkSt:matrix.pocketnet.app',
+			applicationInfo : null
+		}
+	},
+
+	computed : {
+		route : function(){
+			return this.$router.currentRoute.value.href
 		}
 	},
 
@@ -113,10 +163,15 @@ export default {
 
 		this.sdk = new window.BastyonSdk()
 
-		this.sdk.init()
+		this.sdk.init().then((applicationInfo) => {
+			this.applicationInfo = applicationInfo
+		})
 
 		this.sdk.emit('loaded')
-
+		this.sdk.on('changestate', (data) => {
+			console.log('changestate 2')
+			this.$router.push(data.route)
+		})
 
 		////
 
@@ -177,6 +232,9 @@ export default {
 	},
 
 	methods : {
+		gotoRandomRoute : function(){
+			this.$router.push(makeid(10) + '?' + makeid(2) + '=' + getRandomInt(100, 200))
+		},
 		setLastResult : function(){
 
 		},
@@ -192,6 +250,87 @@ export default {
 			}).catch(e => {
 				this.lastresult = e
 			})
+		},
+
+		openChatRoom : function(roomid){
+			this.sdk.chat.openRoom(roomid).then(() => {
+
+				this.lastresult = 'openChatRoom: / ' + roomid
+
+			}).catch(e => {
+				this.lastresult = e
+			})
+		},
+
+
+		createChatRoom : function(){
+			//var users = ['PH6Sn3Kb8y2oLdgoysyGL5nhdr6jZMNjhv', 'PKEMJ5pJ3tUMdSSnJNBNG5iWTHJm33duCk', 'PBZ3tmNb31JwzPUS6TuE2St8ZWHi3ks2tt', 'PPcRoWh5oAZgAdqL2spMmRyE1BB9gSWgPH']
+			var users = ['PPcRoWh5oAZgAdqL2spMmRyE1BB9gSWgPH']
+
+			var count = 1//getRandomInt(1, 2)
+
+			var chatusers = [];
+
+			for(var i = 0; i < count; i++){
+				if(users.length){
+					var index = getRandomInt(0, users.length - 1)
+					chatusers.push(users[index])
+					users.splice(index, 1);
+				}
+			}
+
+			this.sdk.chat.getOrCreateRoom({users : chatusers, parameters : {equal : true}}).then(({roomid}) => {
+
+				console.log('roomid', roomid)
+
+				this.lastresult = 'getOrCreateRoom: success / ' + roomid
+
+				this.lastChatRoom = roomid
+
+				this.openChatRoom(roomid)
+
+			}).catch(e => {
+				this.lastresult = e
+			})
+
+		},
+
+		sendMessage : function(){
+
+			console.log('this.lastChatRoom', this.lastChatRoom)
+			console.log('this.applicationInfo', this.applicationInfo)
+
+			if(!this.lastChatRoom) return
+			if(!this.applicationInfo) return
+
+			var roomid = this.lastChatRoom
+
+
+			var content = {};
+
+				//content.images = [imagesForShareBase64];
+				//content.messages = [message1,message2];
+
+
+			content.messages = ['Hello!', 'This is link from my mini application: ' + this.sdk.get.applink()]
+			
+			console.log('content', content)
+
+			this.sdk.chat.send({
+				
+				roomid,
+				content
+
+			}).then(() => {
+
+				this.lastresult = 'sendMessage: success / ' + roomid
+
+				this.openChatRoom(roomid)
+
+			}).catch(e => {
+				this.lastresult = e
+			})
+
 		},
 
 		imageFromMobileCamera : function(){
@@ -297,6 +436,10 @@ export default {
 </script>
 
 <style>
+.routeWrapper{
+	padding : 0.5em;
+	margin-bottom: 3em;
+}
 .localstorage{
 	display: none;
 }
