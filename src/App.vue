@@ -59,6 +59,13 @@
 				<div class="action">
 					<input type="file" />
 				</div>
+				<div class="action">
+					<router-link to="test">Test vue link</router-link>
+				</div>
+
+				<div class="action">
+					<a href="https://www.developer.com/">https://www.developer.com/</a>
+				</div>
 			</div>
 		</div>
 	</div>
