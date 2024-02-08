@@ -146,7 +146,7 @@ export default {
 			emitted : [],
 			localstorage : '',
 			locale : '',
-			lastChatRoom : '!PAWsIogJXfOQuBxkSt:matrix.pocketnet.app',
+			lastChatRoom : '',
 			applicationInfo : null
 		}
 	},
@@ -264,10 +264,13 @@ export default {
 
 
 		createChatRoom : function(){
-			//var users = ['PH6Sn3Kb8y2oLdgoysyGL5nhdr6jZMNjhv', 'PKEMJ5pJ3tUMdSSnJNBNG5iWTHJm33duCk', 'PBZ3tmNb31JwzPUS6TuE2St8ZWHi3ks2tt', 'PPcRoWh5oAZgAdqL2spMmRyE1BB9gSWgPH']
-			var users = ['PPcRoWh5oAZgAdqL2spMmRyE1BB9gSWgPH']
+			var users = ['PH6Sn3Kb8y2oLdgoysyGL5nhdr6jZMNjhv', 'PKEMJ5pJ3tUMdSSnJNBNG5iWTHJm33duCk', 'PBZ3tmNb31JwzPUS6TuE2St8ZWHi3ks2tt', 'PPcRoWh5oAZgAdqL2spMmRyE1BB9gSWgPH']
+			
+			if (this.sdk.test){
+				users = ['THhQUbviS194HoCzPnLZ5ADgNs15QQReyf', 'T9yF79sfm59dkVa6a2ZJFa3hQNr48R1tmq', 'T9yEbCJe7PmPmiXh4hLFPfTtV5HQNjSFpu', 'T9yEPapEnfhQZxvu3nb5pZAPEivKseqkFg', 'TDGUg8Uohj4Hw9DbUJkZynswo77E42WN8T']
+			}
 
-			var count = 1//getRandomInt(1, 2)
+			var count = getRandomInt(1, 2)
 
 			var chatusers = [];
 
