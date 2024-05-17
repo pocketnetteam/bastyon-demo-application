@@ -8,49 +8,54 @@
 			<div class="caption">TEST APP</div>
 			<div class="content">
 				<div class="action">
-					<button @click="getAccount">Get user Address</button>
+					<button class="bstyle" @click="getAccount">Get user Address</button>
 				</div>
 
 				<div class="action" v-if="address">
-					<button @click="getUserInfo">Get user Profile</button>
+					<button class="bstyle" @click="getUserInfo">Get user Profile</button>
 				</div>
 
 				<div class="action">
-					<button @click="createChatRoom">Create chat room</button>
-				</div>
-
-
-				<div class="action">
-					<button @click="sendMessage" :disabled="lastChatRoom ? false : true">Send message in chat (last created room)</button>
+					<button class="bstyle" @click="createChatRoom">Create chat room</button>
 				</div>
 
 				<div class="action">
-					<button @click="getNodeInfo">Get node info</button>
+					<button class="bstyle" @click="share">Share</button>
 				</div>
 
 				<div class="action">
-					<button @click="makePayment">Make Payment</button>
+					<button class="bstyle" @click="sendMessage" :disabled="lastChatRoom ? false : true">Send message in chat (last created room)</button>
 				</div>
 
 				<div class="action">
-					<button @click="requestPermissions">Request permissions [messaging]</button>
+					<button class="bstyle" @click="getNodeInfo">Get node info</button>
 				</div>
 
 				<div class="action">
-					<button @click="alertMessage">Alert Message</button>
+					<button class="bstyle" @click="makePayment">Make Payment</button>
 				</div>
 
 				<div class="action">
-					<button @click="openSettings">Open application settings page</button>
+					<button class="bstyle" @click="requestPermissions">Request permissions [messaging]</button>
 				</div>
 
 				<div class="action">
-					<button @click="imageFromMobileCamera">Image From Mobile Camera</button>
+					<button class="bstyle" @click="alertMessage">Alert Message</button>
 				</div>
 
 				<div class="action">
-					<button @click="gotoRandomRoute">Application Internal Link</button>
+					<button class="bstyle" @click="openSettings">Open application settings page</button>
 				</div>
+
+				<div class="action">
+					<button class="bstyle" @click="imageFromMobileCamera">Image From Mobile Camera</button>
+				</div>
+
+				<div class="action">
+					<button class="bstyle" @click="gotoRandomRoute">Application Internal Link</button>
+				</div>
+
+				
 			</div>
 
 			<div class="subcaption">Additional (test)</div>
@@ -109,7 +114,7 @@
 	<div class="lastresult" v-if="lastresult">
 		<div class="result">{{lastresult}}</div>
 		<div class="close">
-			<button @click="clearLastResult">Close</button>
+			<button class="bstyle" @click="clearLastResult">Close</button>
 		</div>
 	</div>
 
@@ -175,9 +180,10 @@ export default {
 		})
 
 		this.sdk.emit('loaded')
+
 		this.sdk.on('changestate', (data) => {
-			console.log('changestate 2')
-			this.$router.push(data.route)
+			console.log("getroute", this.sdk.getroute(data))
+			this.$router.push(this.sdk.getroute(data))
 		})
 
 		////
@@ -239,8 +245,27 @@ export default {
 	},
 
 	methods : {
+		share : function(){
+			this.sdk.helpers.share({
+				path : '/url?article=4',
+				/*sharing : {
+					images : ['https://peertube341.pocketnet.app/images/8fc002607bc3e2b4f29d6a3dae764798/8fc002607bc3e2b4f29d6a3dae764798-original.jpg'],
+					title : 'Article',
+					html : {
+						body : '<p>Article text</p>',
+						preview : '<p>Article text preview</p>'
+					},
+
+					text : {
+						body : 'Article text',
+						preview : 'Article text preview'
+					}
+				}*/
+			})
+		},
 		gotoRandomRoute : function(){
 			this.$router.push(makeid(10) + '?' + makeid(2) + '=' + getRandomInt(100, 200))
+			
 		},
 		setLastResult : function(){
 

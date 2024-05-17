@@ -2,10 +2,10 @@
     "id": "demo.pocketnet.app",
     "name": "Demo application",
     "version": "0.0.1",
-    "description": "A Revolutionary anti-censorship decentralized publishing and social platform. Based on the blockchain technology, it runs on a set of computers around the world, not controlled by any single entity. Self-policed by users with good reputation where nobody records your keystrokes, viewing habits or searches.",
+    "description": "Demo application for Bastyon",
     "descriptions" : {
-        "en" : "A Revolutionary anti-censorship decentralized publishing and social platform. Based on the blockchain technology, it runs on a set of computers around the world, not controlled by any single entity. Self-policed by users with good reputation where nobody records your keystrokes, viewing habits or searches.",
-        "ru" : "Революционная антицензурная децентрализованная издательская и социальная платформа. Основанная на технологии блокчейн, она работает на множестве компьютеров по всему миру, не контролируется какой-либо отдельной организацией. Самостоятельно контролируется пользователями с хорошей репутацией, где никто не записывает ваши нажатия клавиш, привычки просмотра или поиски"
+        "en" : "Demo application for Bastyon",
+        "ru" : "Демо приложение для Bastyon"
     },
     "author": "PQ8AiCHJaTZAThr2TnpkQYDyVd1Hidq4PM",
     "develop": true,
