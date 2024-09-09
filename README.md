@@ -9,6 +9,15 @@ npm install
 ```
 npm run serve
 ```
+If you see errors like 
+``` …ion/node_modules/webpack/hot/dev-server.jsError: error:0308010C:digital envelope routines::unsupported...```
+
+make sure you upgrade your node to v 16
+
+```
+nvm install 16
+nvm use 16
+```
 
 ### Compiles and minifies for production
 ```
