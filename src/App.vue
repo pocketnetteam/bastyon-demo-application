@@ -16,6 +16,10 @@
 				</div>
 
 				<div class="action">
+					<button class="bstyle" @click="getzaddress">Get wallet address</button>
+				</div>
+
+				<div class="action">
 					<button class="bstyle" @click="createChatRoom">Create chat room</button>
 				</div>
 
@@ -169,7 +173,7 @@ export default {
 		}
 	},
 
-	mounted : function(){
+	mounted : async function(){
 
 		/// required		
 
@@ -228,6 +232,26 @@ export default {
 
 			this.locale = locale
 		})
+
+		if (this.sdk.proxyRequests){
+			await this.sdk.proxyRequests()
+		}
+
+		setInterval(async() => {
+
+			let url = 'https://matrix.2.pocketnet.app/_matrix/client/versions'
+
+			let response = await fetch(url);
+
+			if (response.ok) { 
+				let json = await response.json();
+
+				console.log(json)
+
+			} else {
+				alert("error HTTP: " + response.status);
+			}
+		}, 10000)
 		
 		/*this.sdk.on('test', (d) => {
 			console.log("test data", d)
@@ -272,6 +296,16 @@ export default {
 		},
 		clearLastResult : function(){
 			this.lastresult = ''
+		},
+
+		getzaddress: function(){
+			this.sdk.get.zaddress().then((address) => {
+				console.log('address555', address)
+				this.lastresult = 'getzaddress: ' + address
+
+			}).catch(e => {
+				this.lastresult = e
+			})
 		},
 
 		openSettings: function(){
